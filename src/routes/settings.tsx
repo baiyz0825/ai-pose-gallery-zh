@@ -90,7 +90,7 @@ function SettingsPage() {
                   : 'border-border/60 bg-card hover:bg-muted/40'
               }`}
             >
-              <span className="min-w-0"><span className="block truncate text-sm">{t(itemMeta.name)}</span><span className="block text-xs font-normal text-muted-foreground">{id === 'comfyui' ? t(COMFY_CONNECTION_LABELS[comfyConnection.status]) : hasKey ? t('已配置') : t('未配置 Key')}</span></span>
+              <span className="min-w-0"><span className="block text-sm leading-snug break-words">{t(itemMeta.name)}</span><span className="block text-xs font-normal text-muted-foreground">{id === 'comfyui' ? t(COMFY_CONNECTION_LABELS[comfyConnection.status]) : hasKey ? t('已配置') : t('未配置 Key')}</span></span>
               <span
                 aria-hidden="true"
                 className={`size-2 shrink-0 rounded-full ${

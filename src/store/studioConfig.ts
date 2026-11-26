@@ -4,11 +4,14 @@ import { DEFAULT_PIXAI_PARAMS, PIXAI_MODEL, PIXAI_MODELS } from '@/services/pixa
 
 const COMFY_CONFIG_VERSION = 3
 
+/** 自托管镜像构建时注入了 ComfyUI 地址，默认直连本地 ComfyUI */
+const SELF_HOSTED_COMFY = Boolean((import.meta.env.VITE_COMFYUI_BASE_URL || '').trim())
+
 export const shouldEnableProxyByDefault = (provider?: ImageProviderId) =>
   provider === 'qwen' || provider === 'doubao' || provider === 'pixai'
 
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  activeProvider: 'gemini',
+  activeProvider: SELF_HOSTED_COMFY ? 'comfyui' : 'gemini',
   imagePassMode: 'url',
   useProxy: false,
   stylePreset: 'realistic',

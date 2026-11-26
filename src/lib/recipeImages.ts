@@ -4,9 +4,19 @@ export function referenceImageUrl(src: string): string {
   return /^(data:|blob:|https?:\/\/|\/)/i.test(src) ? src : `/${src}`
 }
 
+const GALLERY_IMAGE_ENDPOINT = '/pose_character_atlas/image?'
+
+/** 走 ComfyUI 接口取图时，深度图由接口的 depth=1 参数切换 */
+function withDepthParam(url: string): string {
+  if (!url.includes(GALLERY_IMAGE_ENDPOINT)) return url
+  if (/[?&]depth=/.test(url)) return url
+  return `${url}&depth=1`
+}
+
 export function poseThumbPath(pose: PoseItem, useDepth = Boolean(pose.useDepth)): string {
   const raw = pose.缩略图
   if (pose.source === 'upload' || !useDepth || /^(data:|blob:|https?:\/\/)/i.test(raw)) return raw
+  if (raw.includes(GALLERY_IMAGE_ENDPOINT)) return withDepthParam(raw)
   const clean = raw.replace(/^\/+/, '')
   if (clean.startsWith('thumbs/depth/')) return raw
   if (clean.startsWith('thumbs/')) {
@@ -18,6 +28,7 @@ export function poseThumbPath(pose: PoseItem, useDepth = Boolean(pose.useDepth))
 export function poseImagePath(pose: PoseItem, useDepth = Boolean(pose.useDepth)): string {
   const raw = pose.原图 || pose.缩略图
   if (pose.source === 'upload' || !useDepth || /^(data:|blob:|https?:\/\/)/i.test(raw)) return raw
+  if (raw.includes(GALLERY_IMAGE_ENDPOINT)) return withDepthParam(raw)
   const clean = raw.replace(/^\/+/, '')
   if (clean.startsWith('img/depth/')) return raw
   if (clean.startsWith('img/')) {
