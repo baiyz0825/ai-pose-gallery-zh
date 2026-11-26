@@ -78,10 +78,10 @@ export const posesQuery = queryOptions({
   queryKey: ['gallery', 'poses'],
   staleTime: Infinity,
   queryFn: async () => {
-    const res = await fetch('/data/pose-zh.json')
+    const res = await fetch(`${COMFY_GALLERY_BASE}/catalogue?library=pose`)
     if (!res.ok) throw new Error(`加载姿势数据失败: HTTP ${res.status}`)
-    const data = (await res.json()) as PoseItem[]
-    return buildPoseGroups(data)
+    const payload = (await res.json()) as { items: PoseItem[] }
+    return buildPoseGroups((payload.items || []).map(mapPose))
   },
 })
 
@@ -89,21 +89,40 @@ export const costumesQuery = queryOptions({
   queryKey: ['gallery', 'costumes'],
   staleTime: Infinity,
   queryFn: async () => {
-    const lists = await Promise.all(['/data/costume-zh.json', '/data/costume-anime-zh.json', '/data/costume-gia-anime-zh.json', '/data/costume-shisei-zh.json'].map(async (url) => {
-      const res = await fetch(url)
-      if (!res.ok) throw new Error(`加载服装数据失败: HTTP ${res.status}`)
-      return (await res.json()) as CostumeItem[]
-    }))
-    return lists.flat()
+    const res = await fetch(`${COMFY_GALLERY_BASE}/catalogue?library=costume`)
+    if (!res.ok) throw new Error(`加载服装数据失败: HTTP ${res.status}`)
+    const payload = (await res.json()) as { items: CostumeItem[] }
+    return (payload.items || []).map(mapCostume)
   },
 })
+
+const COMFY_GALLERY_BASE = '/comfy/pose_character_atlas'
+
+function galleryImageUrl(library: 'pose' | 'costume' | 'portrait', id: string, kind: 'thumb' | 'full'): string {
+  const params = new URLSearchParams({ library, id, kind })
+  return `${COMFY_GALLERY_BASE}/image?${params.toString()}`
+}
+
+function mapPose(item: PoseItem): PoseItem {
+  return { ...item, 缩略图: galleryImageUrl('pose', item.id, 'thumb'), 原图: galleryImageUrl('pose', item.id, 'full') }
+}
+
+function mapPortrait(item: PortraitItem): PortraitItem {
+  return { ...item, 缩略图: galleryImageUrl('portrait', item.id, 'thumb'), 原图: galleryImageUrl('portrait', item.id, 'full') }
+}
+
+function mapCostume(item: CostumeItem): CostumeItem {
+  const image = galleryImageUrl('costume', item.id, 'full')
+  return { ...item, 缩略图: galleryImageUrl('costume', item.id, 'thumb'), 预览图: image, 原图: image }
+}
 
 export const portraitsQuery = queryOptions({
   queryKey: ['gallery', 'portraits'],
   staleTime: Infinity,
   queryFn: async () => {
-    const res = await fetch('/data/portrait-zh.json')
+    const res = await fetch(`${COMFY_GALLERY_BASE}/catalogue?library=portrait`)
     if (!res.ok) throw new Error(`加载人像数据失败: HTTP ${res.status}`)
-    return (await res.json()) as PortraitItem[]
+    const payload = (await res.json()) as { items: PortraitItem[] }
+    return (payload.items || []).map(mapPortrait)
   },
 })

@@ -62,9 +62,9 @@ export function RecipeDock() {
                   type="button"
                   aria-label={t('清除人像参考图')}
                   onClick={() => setPortrait(null)}
-                  className="absolute top-1 right-1 shrink-0 rounded-full p-0.5 text-muted-foreground hover:text-foreground @md/main:static"
+                  className="absolute top-0.5 right-0.5 shrink-0 rounded-full p-1 text-muted-foreground hover:text-foreground @md/main:static @md/main:p-0.5"
                 >
-                  <XIcon className="size-3" />
+                  <XIcon className="size-3.5" />
                 </button>
               </>
             ) : (
@@ -93,9 +93,9 @@ export function RecipeDock() {
                   type="button"
                   aria-label={t('清除服装参考图')}
                   onClick={() => setCostume(null)}
-                  className="absolute top-1 right-1 shrink-0 rounded-full p-0.5 text-muted-foreground hover:text-foreground @md/main:static"
+                  className="absolute top-0.5 right-0.5 shrink-0 rounded-full p-1 text-muted-foreground hover:text-foreground @md/main:static @md/main:p-0.5"
                 >
-                  <XIcon className="size-3" />
+                  <XIcon className="size-3.5" />
                 </button>
               </>
             ) : (
@@ -135,9 +135,9 @@ export function RecipeDock() {
                   type="button"
                   aria-label={t('清除姿势参考图')}
                   onClick={() => setPose(null)}
-                  className="absolute top-1 right-1 shrink-0 rounded-full p-0.5 text-muted-foreground hover:text-foreground @md/main:static"
+                  className="absolute top-0.5 right-0.5 shrink-0 rounded-full p-1 text-muted-foreground hover:text-foreground @md/main:static @md/main:p-0.5"
                 >
-                  <XIcon className="size-3" />
+                  <XIcon className="size-3.5" />
                 </button>
               </>
             ) : (

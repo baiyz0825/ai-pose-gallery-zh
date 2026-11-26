@@ -133,7 +133,22 @@
     }
   html {
     @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     }
+  /* 刘海屏/圆角屏横屏时避免内容被裁切 */
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    }
+}
+
+/* 触屏设备去掉 hover 位移等仅适合鼠标的反馈，避免点按后样式滞留 */
+@media (hover: none) {
+  .hover\:-translate-y-0\.5:hover {
+    transform: none;
+  }
 }
 /* 选中菜单加粗 */
 [data-slot="sidebar-menu-button"][data-active="true"] {

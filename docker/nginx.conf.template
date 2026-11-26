@@ -4,19 +4,6 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
-    location /data/ {
-        alias /assets/data/;
-        add_header Cache-Control "public, max-age=300";
-    }
-    location /thumbs/ {
-        alias /assets/thumbs/;
-        add_header Cache-Control "public, max-age=86400";
-    }
-    location /img/ {
-        alias /assets/img/;
-        add_header Cache-Control "public, max-age=86400";
-    }
-
     location /comfy/ {
         proxy_pass ${COMFYUI_URL}/;
         proxy_http_version 1.1;
