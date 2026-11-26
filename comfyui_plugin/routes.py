@@ -7,6 +7,7 @@ import json
 import io
 import logging
 import urllib.request
+import mimetypes
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -168,13 +169,13 @@ def register_routes() -> None:
                     raise ValueError("未知远程图片")
                 raise web.HTTPFound(rel)
             path = resolve_safe_image_path(rel)
-            return web.FileResponse(
-                path,
-                headers={
-                    "Cache-Control": "public, max-age=86400",
-                    "X-Content-Type-Options": "nosniff",
-                },
-            )
+            content_type, _ = mimetypes.guess_type(path.name)
+            response = web.FileResponse(path)
+            response.headers["Cache-Control"] = "public, max-age=86400"
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            if not content_type or response.headers.get("Content-Type") in (None, "application/octet-stream"):
+                response.headers["Content-Type"] = content_type or "application/octet-stream"
+            return response
         except web.HTTPRedirection:
             raise
         except Exception as exc:
