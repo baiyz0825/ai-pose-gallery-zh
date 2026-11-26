@@ -499,6 +499,8 @@ export function isLocalDevHost(): boolean {
 /** ComfyUI Desktop 默认端口 8000；便携版 / 源码版默认 8188 */
 // 注意：PROVIDER_META 在模块初始化时就会调用本函数，这里不能引用后面定义的 const
 export function defaultComfyBaseUrl(): string {
+  const configured = (import.meta.env.VITE_COMFYUI_BASE_URL || '').trim()
+  if (configured) return configured.replace(/\/+$/, '')
   return isLocalDevHost() ? '/comfy' : 'http://127.0.0.1:8000'
 }
 
