@@ -17,7 +17,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useStudio } from '@/store/studioStore'
-import { referenceImageUrl } from '@/lib/recipeImages'
+import { poseThumbPath, referenceImageUrl } from '@/lib/recipeImages'
 import { costumeName, formatNumber, portraitStyle, portraitTitle, t } from '@/i18n'
 
 export const Route = createFileRoute('/')({
@@ -87,7 +87,7 @@ function DashboardPage() {
             {posesData.groups.slice(0, 4).map((g) => (
               <img
                 key={g.key}
-                src={`/${g.order[0].缩略图}`}
+                src={referenceImageUrl(poseThumbPath(g.order[0]))}
                 alt={g.name}
                 loading="lazy"
                 className="aspect-3/4 w-full rounded-lg bg-background object-cover"
@@ -129,7 +129,7 @@ function DashboardPage() {
             {portraits.slice(0, 4).map((p) => (
               <img
                 key={p.id}
-                src={`/${p.缩略图}`}
+                src={referenceImageUrl(p.缩略图)}
                 alt={portraitTitle(p)}
                 loading="lazy"
                 className="aspect-3/4 w-full rounded-lg bg-background object-cover"
@@ -165,7 +165,7 @@ function DashboardPage() {
               >
                 <div className="relative aspect-4/5 overflow-hidden">
                   <img
-                    src={`/${item.缩略图}`}
+                    src={referenceImageUrl(item.缩略图)}
                     alt={portraitTitle(item)}
                     loading="lazy"
                     className="h-full w-full object-cover transition group-hover:scale-105"

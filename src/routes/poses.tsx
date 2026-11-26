@@ -23,7 +23,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { poseImagePath, poseThumbPath } from '@/lib/recipeImages'
+import { poseImagePath, poseThumbPath, referenceImageUrl } from '@/lib/recipeImages'
 import { cn } from '@/lib/utils'
 import { useStudio } from '@/store/studioStore'
 import type { PoseGroup, PoseItem } from '@/types/gallery'
@@ -329,7 +329,7 @@ function PosesPage() {
                   className="relative aspect-3/4 cursor-zoom-in overflow-hidden rounded-2xl bg-background"
                 >
                   <img
-                    src={`/${poseThumbPath(item, poseDepthMode)}`}
+                    src={referenceImageUrl(poseThumbPath(item, poseDepthMode))}
                     alt={`${poseName(group)} · ${term(item.角度)}`}
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
@@ -384,7 +384,7 @@ function PosesPage() {
                         )}
                       >
                         <img
-                          src={`/${poseThumbPath(angItem, poseDepthMode)}`}
+                          src={referenceImageUrl(poseThumbPath(angItem, poseDepthMode))}
                           alt={term(ang)}
                           loading="lazy"
                           className="aspect-square w-full rounded-md object-cover"
@@ -413,7 +413,7 @@ function PosesPage() {
                   className="relative aspect-3/4 cursor-zoom-in overflow-hidden rounded-2xl bg-background"
                 >
                   <img
-                    src={`/${poseThumbPath(item, poseDepthMode)}`}
+                    src={referenceImageUrl(poseThumbPath(item, poseDepthMode))}
                     alt={poseName(item)}
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
@@ -470,7 +470,7 @@ function PosesPage() {
             return (
               <div className="grid md:grid-cols-[1fr_300px]">
                 <div className="relative flex max-h-[78dvh] min-h-[min(360px,65dvh)] items-center justify-center bg-muted/60 p-4">
-                  <ZoomViewport imageUrl={`/${activeImgPath}`} alt={poseName(it)} className="min-h-0 h-[58dvh]" />
+                  <ZoomViewport imageUrl={referenceImageUrl(activeImgPath)} alt={poseName(it)} className="min-h-0 h-[58dvh]" />
                   {grp && grp.order.length > 1 && (
                     <>
                       <Button
@@ -564,7 +564,7 @@ function PosesPage() {
                                   angItem.id === it.id ? 'border-primary bg-muted' : 'border-transparent opacity-70'
                                 )}
                               >
-                                <img src={`/${poseThumbPath(angItem, poseDepthMode)}`} alt={term(ang)} className="aspect-square w-full rounded object-cover" />
+                                <img src={referenceImageUrl(poseThumbPath(angItem, poseDepthMode))} alt={term(ang)} className="aspect-square w-full rounded object-cover" />
                                 <span className="mt-0.5 block text-center text-[10px]">{term(ang)}</span>
                               </button>
                             )
@@ -592,13 +592,13 @@ function PosesPage() {
                     </Button>
                     <div className="grid grid-cols-2 gap-2">
                       <Button variant="outline" size="sm" asChild>
-                        <a href={`/${activeImgPath}`} download={`${it.id}${poseDepthMode ? '_depth.webp' : '.png'}`}>
+                        <a href={referenceImageUrl(activeImgPath)} download={`${it.id}${poseDepthMode ? '_depth.webp' : '.png'}`}>
                           <DownloadIcon className="size-3.5" />
                           {poseDepthMode ? t('下载深度图') : t('下载 PNG')}
                         </a>
                       </Button>
                       <Button variant="outline" size="sm" asChild>
-                        <a href={`/${activeImgPath}`} target="_blank" rel="noopener noreferrer">
+                        <a href={referenceImageUrl(activeImgPath)} target="_blank" rel="noopener noreferrer">
                           <ExternalLinkIcon className="size-3.5" />
                           {t('新窗口原图')}
                         </a>
