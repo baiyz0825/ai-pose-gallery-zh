@@ -18,6 +18,7 @@ import { toast } from '@/lib/notifications'
 import { portraitsQuery } from '@/api/gallery'
 import { EmptyState } from '@/components/common/EmptyState'
 import { PageHeader } from '@/components/common/PageHeader'
+import { referenceImageUrl } from '@/lib/recipeImages'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -233,7 +234,7 @@ function PortraitsPage() {
                   className="relative aspect-4/5 cursor-zoom-in overflow-hidden rounded-2xl bg-background"
                 >
                   <img
-                    src={`/${item.缩略图}`}
+                    src={referenceImageUrl(item.缩略图)}
                     alt={portraitTitle(item)}
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
@@ -296,7 +297,7 @@ function PortraitsPage() {
             return (
               <div className="grid md:grid-cols-[1fr_320px]">
                 <div className="relative flex max-h-[78dvh] min-h-[min(380px,65dvh)] items-center justify-center bg-muted/60 p-4">
-                  <ZoomViewport imageUrl={`/${currentItem.原图}`} alt={portraitTitle(currentItem)} className="min-h-0 h-[58dvh]" />
+                  <ZoomViewport imageUrl={referenceImageUrl(currentItem.原图)} alt={portraitTitle(currentItem)} className="min-h-0 h-[58dvh]" />
                   <Button
                     variant="secondary"
                     size="icon"
@@ -359,13 +360,13 @@ function PortraitsPage() {
                     </Button>
                     <div className="grid grid-cols-2 gap-2">
                       <Button variant="outline" size="sm" asChild>
-                        <a href={`/${currentItem.原图}`} download={`${currentItem.id}.webp`}>
+                        <a href={referenceImageUrl(currentItem.原图)} download={`${currentItem.id}.webp`}>
                           <DownloadIcon className="size-3.5" />
                           {t('下载高清原图')}
                         </a>
                       </Button>
                       <Button variant="outline" size="sm" asChild>
-                        <a href={`/${currentItem.原图}`} target="_blank" rel="noopener noreferrer">
+                        <a href={referenceImageUrl(currentItem.原图)} target="_blank" rel="noopener noreferrer">
                           <ExternalLinkIcon className="size-3.5" />
                           {t('新窗口原图')}
                         </a>
